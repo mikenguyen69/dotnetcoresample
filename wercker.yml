@@ -4,25 +4,44 @@ build:
   steps: 
     - script:
         name: restore
+        cwd: SWC.TeamService
         code: |
           dotnet restore
     - script:
         name: build
+        cwd: SWC.TeamService
         code: |
           dotnet build
     - script:
         name: publish
+        cwd: SWC.TeamService
         code: |
           dotnet publish -o publish  
     - script:
+        name: test-restore
+        cwd: SWC.TeamService.Tests
+        code: |
+          dotnet restore
+    - script:
+        name: test-build
+        cwd: SWC.TeamService.Tests
+        code: |
+          dotnet build
+    - script:
+        name: test-run
+        cwd: SWC.TeamService.Tests
+        code: |
+          dotnet test
+    - script:
         name: copy binary
+        cwd: SWC.TeamService
         code: |
           cp -r . $WERCKER_OUTPUT_DIR/app 
-          cd $WERCKER_OUTPUT_DIR/app
           
 deploy:
   steps:
     - internal/docker-push:
+        cwd: $WERCKER_OUTPUT_DIR/app
         username: mikenguyen69
         password: orehvd69
         repository: mikenguyen69/hello-world

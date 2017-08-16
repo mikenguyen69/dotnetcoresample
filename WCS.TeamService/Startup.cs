@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using WCS.TeamService.Persistence;
 
 namespace HelloFirstHand
 {
@@ -16,6 +17,8 @@ namespace HelloFirstHand
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+            services.AddScoped<ITeamRepository, MemoryTeamRepository>();
         }
 
         public Startup(IHostingEnvironment env)
